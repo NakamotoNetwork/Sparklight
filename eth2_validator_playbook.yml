@@ -1,0 +1,48 @@
+---
+- name: "Setup ETH 2.0 Validator"
+  hosts: localhost
+  connection: local
+
+  tasks:
+    # =========================
+    # Intall the ETH Repo to get GETH
+    # ==========================
+    #
+    - name: Add ETH Repo
+      apt_repository:
+        repo: ppa:ethereum/ethereum
+    - name: Install ethereum geth
+      apt: pkg=ethereum state=present update_cache=true
+    - name: Get OS Release
+      shell: lsb_release -cs
+      register: RELEASE
+    - name: Install build-essential
+      apt: pkg=build-essential state=present update_cache=true
+    - name: Install htop
+      apt: pkg=htop state=present update_cache=true      
+    - name: Install tmux
+      apt: pkg=tmux state=present update_cache=true
+    - name: Install curl
+      apt: pkg=curl state=present update_cache=true
+    - name: Install git
+      apt: pkg=git-core state=present update_cache=true      
+    - name: Install neofetch
+      apt: pkg=neofetch state=present update_cache=true
+    - name: Upgrade server
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 # Once day between updates
+    - name: Install Figlet
+      apt: pkg=figlet state=present update_cache=true
+    - name: Install Toilet
+      apt: pkg=toilet state=present update_cache=true
+    - name: Add the hostname to the message of the day
+      shell: 'toilet -f slant $(hostname) -F metal > /etc/motd'
+    - name: Install Golang
+      apt: pkg=golang-go state=present update_cache=true
+
+
+  handlers:
+
+
